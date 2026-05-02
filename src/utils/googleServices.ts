@@ -19,7 +19,8 @@ export const getElectionReminderLink = () => {
  * Returns a Google Maps Embed URL for a generic Election Commission location or booth finder.
  */
 export const getBoothFinderMapUrl = (pincode?: string) => {
+  const key = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 'AIzaSyBXazwiRdUyTgHUKDcu76q9NVQguqo44ec';
   const query = pincode ? `Polling Booth near ${pincode}` : 'Election Commission of India';
   // Note: For a production app, we would use a dynamic search with the user's location.
-  return `https://www.google.com/maps/embed/v1/search?key=AIzaSyBXazwiRdUyTgHUKDcu76q9NVQguqo44ec&q=${encodeURIComponent(query)}`;
+  return `https://www.google.com/maps/embed/v1/search?key=${key}&q=${encodeURIComponent(query)}`;
 };

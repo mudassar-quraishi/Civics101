@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { KeyFact } from '../../types/index';
-import { ChevronRight, X, LayoutGrid } from 'lucide-react';
+import { X, LayoutGrid } from 'lucide-react';
 import { useAppStore } from '../../store/appStore';
 
 interface Props {

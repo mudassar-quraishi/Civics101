@@ -25,9 +25,16 @@ export const initGA = () => {
   document.head.appendChild(script2);
 };
 
+declare global {
+  interface Window {
+    gtag: (command: string, action: string, params?: Record<string, unknown>) => void;
+    dataLayer: any[];
+  }
+}
+
 export const trackEvent = (action: string, category: string, label?: string, value?: number) => {
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', action, {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('event', action, {
       event_category: category,
       event_label: label,
       value: value,
@@ -36,8 +43,8 @@ export const trackEvent = (action: string, category: string, label?: string, val
 };
 
 export const trackPageView = (path: string) => {
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('config', GA_MEASUREMENT_ID, {
+  if (typeof window !== 'undefined' && window.gtag) {
+    window.gtag('config', GA_MEASUREMENT_ID, {
       page_path: path,
     });
   }

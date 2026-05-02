@@ -1,16 +1,14 @@
-import { motion } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 
 interface Props {
   text: string;
-  index: number;
   isSelected: boolean;
   isCorrect: boolean | null;
   showResult: boolean;
   onClick: () => void;
 }
 
-export default function QuizOption({ text, index, isSelected, isCorrect, showResult, onClick }: Props) {
+export default function QuizOption({ text, isSelected, isCorrect, showResult, onClick }: Props) {
   return (
     <button
       onClick={onClick}
