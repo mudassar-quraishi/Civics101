@@ -16,15 +16,18 @@ export default function Sidebar() {
     : 0;
 
   return (
-    <aside className="w-80 h-full glass border-r border-slate-200/50 flex flex-col p-8 overflow-y-auto">
-      <div className="mb-10">
+    <aside 
+      className="w-80 h-full glass border-r border-slate-200/50 flex flex-col p-8 overflow-y-auto"
+      aria-label="Module Navigation"
+    >
+      <div className="mb-10" aria-label="Course Progress">
         <div className="flex justify-between items-end mb-3">
           <span className="text-[11px] font-bold tracking-[0.2em] text-slate-400 uppercase">
             {isHindi ? 'प्रगति' : 'Progress'}
           </span>
-          <span className="text-sm font-bold text-slate-900">{progress}%</span>
+          <span className="text-sm font-bold text-slate-900" aria-live="polite">{progress}%</span>
         </div>
-        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+        <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden" role="progressbar" aria-valuenow={progress} aria-valuemin={0} aria-valuemax={100}>
           <motion.div
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
@@ -33,7 +36,7 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <nav className="flex-1 space-y-2">
+      <nav className="flex-1 space-y-2" aria-label="Learning Modules">
         {topics.map((topic, index) => {
           const isCompleted = completedTopics.includes(topic.id);
           const isActive = index === currentTopicIndex;
@@ -43,6 +46,8 @@ export default function Sidebar() {
               key={topic.id}
               whileHover={{ x: 4 }}
               whileTap={{ scale: 0.98 }}
+              aria-label={`${isHindi ? 'विषय' : 'Module'} ${index + 1}: ${isHindi && topic.hindiTitle ? topic.hindiTitle : topic.title}${isCompleted ? (isHindi ? ', पूर्ण' : ', completed') : ''}${isActive ? (isHindi ? ', सक्रिय' : ', active') : ''}`}
+              aria-current={isActive ? 'step' : undefined}
               onClick={() => {
                 setCurrentTopic(index);
                 setActiveTab('learn');

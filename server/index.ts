@@ -17,12 +17,14 @@ app.use(cors());
 app.use(express.json());
 
 // ===== Topic system prompts =====
+const BASE_PROMPT = "You are 'Civics101 Assistant', a highly empathetic, neutral, and expert civic-education assistant for first-time voters in India. Your goal is to demystify the election process using simple, clear, and encouraging language. Always remain non-partisan and avoid expressing any political opinions or preferences. If a user asks for a recommendation on who to vote for, gently redirect them to research candidates using official sources like myneta.info. Keep your responses concise (max 3 sentences) and highly practical.";
+
 const TOPIC_PROMPTS: Record<string, string> = {
-  'voter-registration': 'You are a neutral, civic-education assistant helping first-time voters in India. The user is learning about voter registration. Answer factually, concisely, and encourage civic participation. Reference official sources like nvsp.in and the Election Commission of India. Keep answers under 3 sentences.',
-  'types-of-elections': 'You are a neutral civic-education assistant for first-time Indian voters. The user is learning about types of elections in India (Lok Sabha, Vidhan Sabha, local body). Be factual, balanced across all parties, and concise (under 3 sentences).',
-  'election-day': 'You are a neutral civic-education assistant for first-time Indian voters. The user is learning about Election Day procedures in India. Be factual, practical, and concise (under 3 sentences). Reference EVMs, VVPAT, and official ECI procedures.',
-  'vote-counting': 'You are a neutral civic-education assistant for first-time Indian voters. The user is learning about vote counting in India. Be factual, reassuring about election integrity, and concise (under 3 sentences). Reference EVMs, VVPAT, and ECI procedures.',
-  'government-formation': 'You are a neutral civic-education assistant for first-time Indian voters. The user is learning about government formation in India. Explain factually, avoid political bias, and keep answers under 3 sentences.',
+  'voter-registration': `${BASE_PROMPT} Focus specifically on voter registration procedures, Form 6, NVSP portal, and EPIC card issuance.`,
+  'types-of-elections': `${BASE_PROMPT} Focus on explaining the different levels of government (National, State, Local) and the role of MPs, MLAs, and local councilors.`,
+  'election-day': `${BASE_PROMPT} Focus on the practicalities of polling day: finding the booth, valid IDs, EVM usage, VVPAT verification, and the NOTA option.`,
+  'vote-counting': `${BASE_PROMPT} Focus on the transparency and security of the counting process, strongrooms, and the declaration of results.`,
+  'government-formation': `${BASE_PROMPT} Focus on the constitutional process of forming a government, the 'magic number' (majority), and the role of the President.`,
 };
 
 // ===== Knowledge base (inline for simplicity) =====
@@ -37,24 +39,40 @@ const KB: Record<string, { q: string; a: string }[]> = {
     { q: 'what is lok sabha', a: 'The Lok Sabha (House of the People) is the lower house of India\'s Parliament with 543 elected members. Each member represents one parliamentary constituency. The party or coalition with a majority (272+ seats) forms the central government and its leader becomes Prime Minister.' },
     { q: 'what is vidhan sabha', a: 'Vidhan Sabha is the State Legislative Assembly. Voters elect MLAs (Members of Legislative Assembly) who form the state government. The party or coalition with majority seats chooses the Chief Minister.' },
   ],
-  // ... more entries from api/chat.ts can be added or kept minimal
 };
 
 // ===== Topic filter =====
+/**
+ * Patterns that trigger a neutrality redirection.
+ */
 const BLOCKED_PATTERNS = [
   /\b(bjp|congress|aap|tmc|sp|bsp|ncp|shiv\s*sena|jdu|rjd|dmk|aiadmk|cpim?|ysrcp|brs|trs)\b/i,
-  /\bwho\s+(should|to)\s+vote\s+for\b/i,
+  /\bwho\s+.*vote\s+for\b/i,
   /\bbest\s+(party|candidate|leader)\b/i,
   /\b(modi|rahul|kejriwal|mamata|yogi|stalin|jagan)\b/i,
 ];
 
+/**
+ * Redirect message when a blocked pattern is hit.
+ */
 const NEUTRAL_REDIRECT = "I can help with election processes and how voting works in India, but I stay neutral on parties, candidates, and political positions. Try asking about voter registration, EVMs, how the Lok Sabha works, or what NOTA means!";
 
-function isBlocked(message: string): boolean {
+/**
+ * Checks if a message contains blocked political content.
+ * @param message The user's input message.
+ * @returns True if the message should be blocked.
+ */
+export function isBlocked(message: string): boolean {
   return BLOCKED_PATTERNS.some((p) => p.test(message));
 }
 
-function searchKB(topicId: string, message: string): string | null {
+/**
+ * Searches the local knowledge base for a direct answer.
+ * @param topicId The current module ID.
+ * @param message The user's input message.
+ * @returns The answer if found, otherwise null.
+ */
+export function searchKB(topicId: string, message: string): string | null {
   const entries = KB[topicId];
   if (!entries) return null;
   const lower = message.toLowerCase();
