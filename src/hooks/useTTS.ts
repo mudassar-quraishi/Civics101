@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback } from 'react';
 
 /**
  * Hook for Google-style Text-to-Speech
@@ -6,24 +6,19 @@ import { useState, useCallback, useEffect } from 'react';
  */
 export function useTTS() {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [synth, setSynth] = useState<SpeechSynthesis | null>(null);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setSynth(window.speechSynthesis);
+  const stop = useCallback(() => {
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+      setIsPlaying(false);
     }
   }, []);
 
-  const stop = useCallback(() => {
-    if (synth) {
-      synth.cancel();
-      setIsPlaying(false);
-    }
-  }, [synth]);
-
   const speak = useCallback((text: string, lang: 'en' | 'hi' = 'en') => {
-    if (!synth) return;
+    if (typeof window === 'undefined' || !window.speechSynthesis) return;
 
+    const synth = window.speechSynthesis;
+    
     // Stop any current speech
     synth.cancel();
 
@@ -50,7 +45,7 @@ export function useTTS() {
     utterance.onstart = () => setIsPlaying(true);
 
     synth.speak(utterance);
-  }, [synth]);
+  }, []);
 
   return { speak, stop, isPlaying };
 }
