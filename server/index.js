@@ -3167,7 +3167,7 @@ app.post("/api/chat", async (req, res) => {
     const result = await chat.sendMessage(message);
     res.json({ response: result.response.text(), source: "ai" });
   } catch (err) {
-    console.error("Gemini error:", err.message);
+    console.error("Gemini error:", err instanceof Error ? err.message : String(err));
     res.json({ response: "I'm having trouble connecting to the AI service.", source: "error" });
   }
 });

@@ -2,7 +2,7 @@ import { useState, useRef, useEffect, useMemo } from 'react';
 import { useAppStore } from '../../store/appStore';
 import type { Topic, Message } from '../../types/index';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, Sparkles, User, Info } from 'lucide-react';
+import { Send, Sparkles, Info } from 'lucide-react';
 
 const EMPTY_MESSAGES: Message[] = [];
 

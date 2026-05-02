@@ -20,7 +20,6 @@ export default function FloatingChat() {
   
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -37,7 +36,6 @@ export default function FloatingChat() {
     const trimmed = input.trim();
     if (!trimmed || isLoading) return;
 
-    setError(null);
     addMessage(topic.id, { role: 'user', content: trimmed, timestamp: Date.now() });
     setInput('');
     setIsLoading(true);

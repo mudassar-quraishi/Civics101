@@ -130,7 +130,11 @@ app.post('/api/chat', async (req, res) => {
   try {
     const genAI = new GoogleGenerativeAI(apiKey);
     const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' });
-    const historyMessages = (history || []).slice(-6).map((m: any) => ({
+    interface HistoryItem {
+      role: string;
+      content: string;
+    }
+    const historyMessages = (history || []).slice(-6).map((m: HistoryItem) => ({
       role: m.role === 'user' ? 'user' : 'model',
       parts: [{ text: m.content }],
     }));
@@ -142,8 +146,8 @@ app.post('/api/chat', async (req, res) => {
 
     const result = await chat.sendMessage(message);
     res.json({ response: result.response.text(), source: 'ai' });
-  } catch (err: any) {
-    console.error('Gemini error:', err.message);
+  } catch (err: unknown) {
+    console.error('Gemini error:', err instanceof Error ? err.message : String(err));
     res.json({ response: "I'm having trouble connecting to the AI service.", source: 'error' });
   }
 });

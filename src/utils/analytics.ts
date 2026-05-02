@@ -28,7 +28,7 @@ export const initGA = () => {
 declare global {
   interface Window {
     gtag: (command: string, action: string, params?: Record<string, unknown>) => void;
-    dataLayer: any[];
+    dataLayer: unknown[];
   }
 }
 

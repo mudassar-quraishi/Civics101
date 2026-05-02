@@ -14,7 +14,7 @@ export default defineConfig({
       },
     },
   },
-  // @ts-ignore - Vitest types
+  // @ts-expect-error - Vitest types are handled via vite/client but sometimes need explicit casting in some environments
   test: {
     globals: true,
     environment: 'jsdom',
