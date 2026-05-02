@@ -21,9 +21,9 @@ export default function StepGuide({ steps }: Props) {
         </h2>
       </motion.div>
 
-      <div className="relative pl-8 md:pl-0">
-        {/* Modern Vertical Line */}
-        <div className="absolute left-4 md:left-1/2 top-0 bottom-0 w-1 bg-slate-100 -translate-x-1/2 rounded-full hidden md:block">
+      <div className="relative pl-12 md:pl-20">
+        {/* Modern Vertical Line - Moved to the left to avoid crossing content */}
+        <div className="absolute left-6 md:left-10 top-0 bottom-0 w-1 bg-slate-100 -translate-x-1/2 rounded-full">
           <motion.div 
             initial={{ height: 0 }}
             whileInView={{ height: '100%' }}
@@ -33,31 +33,25 @@ export default function StepGuide({ steps }: Props) {
           />
         </div>
 
-        <div className="space-y-16 md:space-y-32">
+        <div className="space-y-16 md:space-y-24">
           {steps.map((step, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className={`flex flex-col md:flex-row items-center gap-8 md:gap-16 ${
-                i % 2 === 1 ? 'md:flex-row-reverse' : ''
-              }`}
+              className="flex items-start gap-8 md:gap-12"
             >
               {/* Step Number Circle */}
-              <div className="relative z-10 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-slate-900 text-white shadow-2xl shadow-slate-300">
+              <div className="relative z-10 flex-shrink-0 flex items-center justify-center w-12 h-12 md:w-16 md:h-16 rounded-2xl bg-slate-900 text-white shadow-xl shadow-slate-300">
                 <span className="text-xl md:text-2xl font-black">{step.number || i + 1}</span>
-                {/* Connecting horizontal bit for desktop */}
-                <div className={`absolute top-1/2 w-8 h-1 bg-slate-100 hidden md:block ${
-                  i % 2 === 1 ? 'right-full' : 'left-full'
-                }`} />
+                {/* Connecting horizontal bit */}
+                <div className="absolute top-1/2 left-full w-4 md:w-8 h-1 bg-slate-100" />
               </div>
 
               {/* Content Card */}
-              <div className={`flex-1 glass p-8 rounded-3xl border border-slate-200/50 hover:shadow-xl transition-all duration-500 ${
-                i % 2 === 1 ? 'md:text-right' : 'md:text-left'
-              }`}>
+              <div className="flex-1 glass p-8 rounded-3xl border border-slate-200/50 hover:shadow-xl transition-all duration-500 text-left">
                 <h3 className="font-display text-2xl md:text-3xl font-bold text-slate-900 mb-4 leading-tight">
                   {step.title}
                 </h3>
@@ -65,9 +59,9 @@ export default function StepGuide({ steps }: Props) {
                   {step.description}
                 </p>
                 
-                <div className={`mt-6 flex ${i % 2 === 1 ? 'md:justify-end' : 'md:justify-start'}`}>
+                <div className="mt-6 flex justify-start">
                   <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 group hover:bg-blue-50 hover:text-blue-600 transition-all">
-                    <ArrowRight className={`w-5 h-5 transition-transform ${i % 2 === 1 ? 'rotate-180' : ''}`} />
+                    <ArrowRight className="w-5 h-5" />
                   </div>
                 </div>
               </div>
