@@ -109,7 +109,7 @@ export default function InfoCards({ keyFacts }: Props) {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.95, y: 20 }}
-                transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+                transition={{ type: 'spring' as const, damping: 25, stiffness: 300 }}
                 className="relative w-full max-w-3xl max-h-[90vh] bg-white rounded-[2rem] shadow-2xl overflow-hidden flex flex-col items-stretch will-change-transform"
               >
                 <div className="p-6 md:p-10 overflow-y-auto custom-scrollbar">

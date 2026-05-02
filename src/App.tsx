@@ -36,7 +36,7 @@ function App() {
               initial={{ x: -280, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: -280, opacity: 0 }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              transition={{ type: 'spring' as const, damping: 25, stiffness: 200 }}
               className="hidden lg:block z-20"
             >
               <Sidebar />
