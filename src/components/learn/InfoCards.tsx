@@ -21,7 +21,7 @@ const container = {
 
 const item = {
   hidden: { y: 15, opacity: 0 },
-  show: { y: 0, opacity: 1, transition: { type: 'spring', damping: 25, stiffness: 300 } }
+  show: { y: 0, opacity: 1, transition: { type: 'spring' as const, damping: 25, stiffness: 300 } }
 };
 
 export default function InfoCards({ keyFacts }: Props) {
