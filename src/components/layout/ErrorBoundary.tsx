@@ -1,4 +1,4 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, type ErrorInfo, type ReactNode } from 'react';
 import { AlertTriangle, RotateCcw } from 'lucide-react';
 
 interface Props {
@@ -42,7 +42,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               We encountered an unexpected error. Please try refreshing the page or returning home.
             </p>
             <button
-              onClick={handleReset}
+              onClick={this.handleReset}
               className="w-full flex items-center justify-center gap-2 bg-slate-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest text-xs hover:bg-slate-800 transition-all shadow-xl shadow-slate-200"
             >
               <RotateCcw className="w-4 h-4" />
@@ -53,6 +53,6 @@ export default class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    return this.children;
+    return this.props.children;
   }
 }
