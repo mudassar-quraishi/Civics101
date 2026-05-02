@@ -6,6 +6,7 @@ import InfoCards from '../components/learn/InfoCards';
 import StepGuide from '../components/learn/StepGuide';
 import QuizSection from '../components/learn/QuizSection';
 import ActionRow from '../components/learn/ActionRow';
+import CitizenToolkit from '../components/learn/CitizenToolkit';
 import { motion } from 'framer-motion';
 import { Quote } from 'lucide-react';
 
@@ -81,6 +82,11 @@ export default function LearnPage() {
       
       {topic.quiz && (
         <QuizSection quiz={topic.quiz} topicId={topic.id} />
+      )}
+
+      {/* Google Ecosystem Integration: Citizen Toolkit */}
+      {(topic.id === 'voter-registration' || topic.id === 'election-day') && (
+        <CitizenToolkit />
       )}
       
       <ActionRow topicId={topic.id} topicIndex={currentTopicIndex} />

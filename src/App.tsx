@@ -25,6 +25,7 @@ function App() {
 
   return (
     <div className="flex flex-col h-screen overflow-hidden bg-slate-50">
+      <a href="#main-content" className="skip-link">Skip to Content</a>
       <Header />
       <TabNavigation />
       
@@ -45,7 +46,7 @@ function App() {
         </AnimatePresence>
 
         {/* Main content with page transitions */}
-        <main ref={mainRef} className="flex-1 overflow-y-auto relative z-10">
+        <main id="main-content" ref={mainRef} className="flex-1 overflow-y-auto relative z-10">
           <div className="max-w-5xl mx-auto px-6 md:px-12 py-12 pb-32 lg:pb-12">
             <AnimatePresence mode="wait">
               <motion.div
