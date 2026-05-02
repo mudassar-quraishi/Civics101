@@ -50,7 +50,6 @@ export default function QuizSection({ quiz, topicId }: Props) {
               <QuizOption
                 key={i}
                 text={option}
-                index={i}
                 isSelected={selectedIndex === i}
                 isCorrect={i === quiz.correctIndex}
                 showResult={isSubmitted}
