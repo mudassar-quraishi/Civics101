@@ -5,7 +5,6 @@ dist
 .env
 .vercel
 README.md
-Dockerfile
 .dockerignore
 .gcloudignore
 .vscode
